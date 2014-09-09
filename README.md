@@ -23,63 +23,86 @@ No arquivo `redtube.js` tem todo o código da nossa aplicação, vamos iniciar s
 
 ###Solução
 
-Separamos o arquivo `redtube.js` em 2:
+Separamos o arquivo `redtube.js` em 3:
 
 - modules/redtube/app.js
 - modules/redtube/controllers.js
+- modules/redtube/services.js
 
 **modules/redtube/app.js**
-Nesse arquivo deixamos apenas o módulo principal da nossa aplicação `workshopBeMean` com suas dependências, por enquanto apenas nosso módulo `workshopBeMean.redtube`.
+Nesse arquivo deixamos apenas o módulo principal da nossa aplicação `workshopBeMean` com suas dependências, por enquanto apenas nosso módulo `workshopBeMean.redtube` bem como a definição do mesmo.
 
     angular.module('workshopBeMean', ['workshopBeMean.redtube']);
+
+    angular.module('workshopBeMean.redtube', []);
 
 **modules/redtube/controllers.js**
 Aqui nós colocamos toda a lógica do `controller` encapsulada por uma IIFE(Immediately Invoked Function Expression).
 
 Pois no styleguide ele nos diz para encapsular nossos módulos em uma IIFE para não deixar as globais par trás e evitar colisões de nome, principalmente quando seu código é minificado.
 
-    (function(){
-      angular.module('workshopBeMean.redtube', []);
+```
+;(function(){
+'use Strict';
+  angular.module('workshopBeMean.redtube')
+  .controller('RedtubeController', RedtubeController);
 
-      angular.module('workshopBeMean.redtube')
-        .controller('RedtubeController', RedtubeController);
+  // Injetando as dependencias como o styleguide sugere
+  RedtubeController.$inject = ['$scope', '$http', '$sce', 'videosService'];
 
-      function RedtubeController($scope, $http, $sce) {
-        $scope.query = 'Sasha Gray';
+  function RedtubeController($scope, $http, $sce, videosService) {
+    $scope.query = 'Sasha Gray';
 
-        $scope.$watch('query', function (data) {
-          console.log('watch', data);
-          searchVideo(data);
-        });
+    $scope.$watch('query', function (data) {
+      console.log('watch', data);
+      videosService.search(data)
+      .success(function (data) {
+        console.log(data);
+        $scope.videos = data.videos;
+      })
+      .error(function (err){
+        console.log('Error: ', err);
+      });      
+    });
 
-        $scope.currentVideo = null;
+    $scope.currentVideo = null;
+    $scope.isModalActive = false;
+
+    $scope.videoModal = function (id) {
+      if (!id) {
         $scope.isModalActive = false;
-
-        $scope.videoModal = function (id) {
-          if (!id) {
-            $scope.isModalActive = false;
-            return;
-          }
-
-          var video = "http://embed.redtube.com/player/?id=" + id + "&autostart=true";
-
-          $scope.currentVideo = $sce.trustAsResourceUrl(video);
-          $scope.isModalActive = !$scope.isModalActive;
-        };
-
-        function searchVideo(data) {
-          url = 'http://cors-server.getup.io/url/api.redtube.com/?data=redtube.Videos.searchVideos&search=' + data;
-          $http.get(url)
-          .success(function (data) {
-            console.log(data);
-            $scope.videos = data.videos;
-          })
-          .error(function (err){
-            console.log('Error: ', err);
-            });
-        }
+        return;
       }
-    }());
+
+      var video = "http://embed.redtube.com/player/?id=" + id + "&autostart=true";
+
+      $scope.currentVideo = $sce.trustAsResourceUrl(video);
+      $scope.isModalActive = !$scope.isModalActive;
+    };
+  }
+}())
+```
 
 
+**modules/redtube/services.js**
+Aqui nós colocamos toda a camada de comunicação externa da aplicação, também encapsulada por uma IIFE, assim poderemos reaproveitar em outros controllers desse modulo futuramente .
 
+```
+;(function(){
+'use Strict';
+angular.module('workshopBeMean.redtube')
+.service('videosService', videosService);
+
+videosService.$inject = ['$http'];
+
+function videosService($http) {
+  url = 'http://cors-server.getup.io/url/api.redtube.com/?data=redtube.Videos.searchVideos&search=';
+  return {
+    search : function(term){
+      return $http.get(url+term);
+    }
+  }
+}
+
+}())
+```
