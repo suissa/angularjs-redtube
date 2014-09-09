@@ -97,22 +97,63 @@ Dividimos o arquivo `modules/redtube/controllers.js` em 2:
 **modules/redtube/services.js**
 Aqui nós colocamos toda a camada de comunicação externa da aplicação, também encapsulada por uma IIFE, assim poderemos reaproveitar em outros controllers desse módulo futuramente.
 
-```
-;(function(){
-'use strict';
-angular.module('workshopBeMean.redtube')
-.service('videosService', videosService);
+    (function(){
+      'use strict';
+      angular.module('workshopBeMean.redtube')
+      .service('videosService', videosService);
 
-videosService.$inject = ['$http'];
+      videosService.$inject = ['$http'];
 
-function videosService($http) {
-  url = 'http://cors-server.getup.io/url/api.redtube.com/?data=redtube.Videos.searchVideos&search=';
-  return {
-    search : function(term){
-      return $http.get(url+term);
-    }
-  }
-}
+      function videosService($http) {
+        var url = 'http://cors-server.getup.io/url/api.redtube.com/?data=redtube.Videos.searchVideos&search=';
+        return {
+          search : function(term){
+            return $http.get(url+term);
+          }
+        }
+      }
+    }());
 
-}())
-```
+
+**modules/redtube/controllers.js**
+
+    (function(){
+    'use strict';
+      angular.module('workshopBeMean.redtube')
+      .controller('RedtubeController', RedtubeController);
+
+      // Injetando as dependencias como o styleguide sugere
+      RedtubeController.$inject = ['$scope', '$http', '$sce', 'videosService'];
+
+      function RedtubeController($scope, $http, $sce, videosService) {
+        $scope.query = 'Sasha Gray';
+
+        $scope.$watch('query', function (data) {
+          console.log('watch', data);
+
+          videosService.search(data)
+          .success(function (data) {
+            console.log(data);
+            $scope.videos = data.videos;
+          })
+          .error(function (err){
+            console.log('Error: ', err);
+          });
+        });
+
+        $scope.currentVideo = null;
+        $scope.isModalActive = false;
+
+        $scope.videoModal = function (id) {
+          if (!id) {
+            $scope.isModalActive = false;
+            return;
+          }
+
+          var video = "http://embed.redtube.com/player/?id=" + id + "&autostart=true";
+
+          $scope.currentVideo = $sce.trustAsResourceUrl(video);
+          $scope.isModalActive = !$scope.isModalActive;
+        };
+      }
+    }());

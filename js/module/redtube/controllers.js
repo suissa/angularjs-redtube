@@ -1,5 +1,5 @@
-;(function(){
-'use Strict';
+(function(){
+'use strict';
   angular.module('workshopBeMean.redtube')
   .controller('RedtubeController', RedtubeController);
 
@@ -11,6 +11,7 @@
 
     $scope.$watch('query', function (data) {
       console.log('watch', data);
+
       videosService.search(data)
       .success(function (data) {
         console.log(data);
@@ -18,7 +19,7 @@
       })
       .error(function (err){
         console.log('Error: ', err);
-      });      
+      });
     });
 
     $scope.currentVideo = null;
@@ -36,4 +37,4 @@
       $scope.isModalActive = !$scope.isModalActive;
     };
   }
-}())
+}());
