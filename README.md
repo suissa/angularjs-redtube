@@ -1,6 +1,22 @@
 #Workshop Be MEAN - $http - exercício
 Exercício sobre `$http` do AngularJs no Workshop Be MEAN, porém o código está todo agrupado, vou ensinar nesse repositório como modularizar seu código seguindo o [AngularJs styleguide do John Papa](https://github.com/johnpapa/angularjs-styleguide).
 
+##Instalação
+
+Para clonar o repositório:
+
+> git@github.com:suissa/angularjs-redtube.git
+
+Para instalar:
+
+> cd angularjs-redutube
+> npm install -g http-server
+> http-server
+
+Para visualizar entre com seu navegador em:
+
+> localhost:8080x
+
 ##Problema 1
 
 No arquivo `redtube.js` tem todo o código da nossa aplicação, vamos iniciar separando ele como um módulo e separando seu controller.
