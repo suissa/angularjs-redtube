@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="workshopBeMean" ng-controller="RedtubeController">
+<head>
+    <meta charset="UTF-8">
+    <title>{{query}} - Redtube</title>
+    <link rel="stylesheet" type="text/css" href="css/foundation.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div class="row">
+        <div class="large-12 columns">
+            <input type="text" ng-model="query">
+
+            <ul class="small-block-grid-1 large-block-grid-3">
+                <li ng-repeat="v in videos">
+                    <h3 class="video-title"><a ng-href="{{v.video.url}}">{{v.video.title}}</a></h3>
+                    <a class="video-thumb th" ng-click="videoModal(v.video.video_id)">
+                        <img ng-src="{{v.video.default_thumb}}" alt="{{v.video.title}}" title="{{v.video.title}}">
+                    </a>
+
+                    <h4>Tags</h4>
+                    <ul class="tags">
+                        <li class="label" ng-repeat="tag in v.video.tags">
+                            {{ tag.tag_name }}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="reveal-modal" ng-class="{'showModal': isModalActive}">
+              <iframe class="video-frame" ng-if="isModalActive" ng-src="{{currentVideo}}"></iframe>
+              <a class="close-reveal-modal" ng-click="videoModal()">&#215;</a>
+            </div>
+            <div class="reveal-modal-bg" ng-show="isModalActive"  ng-click="videoModal()"></div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/redtube.js"></script>
+</body>
+</html>
