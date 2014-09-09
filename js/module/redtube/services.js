@@ -1,5 +1,5 @@
 ;(function(){
-'use Strict';
+'use strict';
 angular.module('workshopBeMean.redtube')
 .service('videosService', videosService);
 

@@ -99,7 +99,7 @@ Aqui nós colocamos toda a camada de comunicação externa da aplicação, tamb�
 
 ```
 ;(function(){
-'use Strict';
+'use strict';
 angular.module('workshopBeMean.redtube')
 .service('videosService', videosService);
 
