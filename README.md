@@ -41,6 +41,7 @@ Aqui nós colocamos toda a lógica do `controller` encapsulada por uma IIFE(Imme
 
 Pois no styleguide ele nos diz para encapsular nossos módulos em uma IIFE para não deixar as globais par trás e evitar colisões de nome, principalmente quando seu código é minificado.
 
+```
 ;(function(){
 'use Strict';
   angular.module('workshopBeMean.redtube')
@@ -80,13 +81,13 @@ Pois no styleguide ele nos diz para encapsular nossos módulos em uma IIFE para 
     };
   }
 }())
-
+```
 
 
 **modules/redtube/services.js**
 Aqui nós colocamos toda a camada de comunicação externa da aplicação, também encapsulada por uma IIFE, assim poderemos reaproveitar em outros controllers desse modulo futuramente .
 
-
+```
 ;(function(){
 'use Strict';
 angular.module('workshopBeMean.redtube')
@@ -104,3 +105,4 @@ function videosService($http) {
 }
 
 }())
+```
