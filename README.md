@@ -23,11 +23,10 @@ No arquivo `redtube.js` tem todo o código da nossa aplicação, vamos iniciar s
 
 ###Solução
 
-Separamos o arquivo `redtube.js` em 3:
+Separamos o arquivo `redtube.js` em 2:
 
 - modules/redtube/app.js
 - modules/redtube/controllers.js
-- modules/redtube/services.js
 
 **modules/redtube/app.js**
 Nesse arquivo deixamos apenas o módulo principal da nossa aplicação `workshopBeMean` com suas dependências, por enquanto apenas nosso módulo `workshopBeMean.redtube` bem como a definição do mesmo.
@@ -84,8 +83,19 @@ Pois no styleguide ele nos diz para encapsular nossos módulos em uma IIFE para 
 ```
 
 
+##Problema 2
+Nosso controller possui muitas responsabilidades, como a integração com a API via `$http`.
+
+###Solução
+Para separmos as responsabilidades vamos criar um `Service` para gerenciar a integração com a API do Redtube e no Controller apenas o usamos.
+
+Dividimos o arquivo `modules/redtube/controllers.js` em 2:
+
+- modules/redtube/controllers.js
+- modules/redtube/services.js
+
 **modules/redtube/services.js**
-Aqui nós colocamos toda a camada de comunicação externa da aplicação, também encapsulada por uma IIFE, assim poderemos reaproveitar em outros controllers desse modulo futuramente .
+Aqui nós colocamos toda a camada de comunicação externa da aplicação, também encapsulada por uma IIFE, assim poderemos reaproveitar em outros controllers desse módulo futuramente.
 
 ```
 ;(function(){
