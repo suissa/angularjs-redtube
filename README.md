@@ -158,4 +158,4 @@ Aqui nós colocamos toda a camada de comunicação externa da aplicação, tamb�
       }
     }());
     
-    Exemplo online: [http://suissacorp.com.br/redtube/](http://suissacorp.com.br/redtube/)
+    [http://suissacorp.com.br/redtube/](http://suissacorp.com.br/redtube/)
