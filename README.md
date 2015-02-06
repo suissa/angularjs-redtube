@@ -31,9 +31,11 @@ Separamos o arquivo `redtube.js` em 2:
 **modules/redtube/app.js**
 Nesse arquivo deixamos apenas o módulo principal da nossa aplicação `workshopBeMean` com suas dependências, por enquanto apenas nosso módulo `workshopBeMean.redtube` bem como a definição do mesmo.
 
+```javascript
     angular.module('workshopBeMean', ['workshopBeMean.redtube']);
 
     angular.module('workshopBeMean.redtube', []);
+```
 
 **modules/redtube/controllers.js**
 Aqui nós colocamos toda a lógica do `controller` encapsulada por uma IIFE(Immediately Invoked Function Expression).
