@@ -31,16 +31,18 @@ Separamos o arquivo `redtube.js` em 2:
 **modules/redtube/app.js**
 Nesse arquivo deixamos apenas o módulo principal da nossa aplicação `workshopBeMean` com suas dependências, por enquanto apenas nosso módulo `workshopBeMean.redtube` bem como a definição do mesmo.
 
+```javascript
     angular.module('workshopBeMean', ['workshopBeMean.redtube']);
 
     angular.module('workshopBeMean.redtube', []);
+```
 
 **modules/redtube/controllers.js**
 Aqui nós colocamos toda a lógica do `controller` encapsulada por uma IIFE(Immediately Invoked Function Expression).
 
 Pois no styleguide ele nos diz para encapsular nossos módulos em uma IIFE para não deixar as globais par trás e evitar colisões de nome, principalmente quando seu código é minificado.
 
-```
+```javascript
 ;(function(){
 'use Strict';
   angular.module('workshopBeMean.redtube')
@@ -96,7 +98,7 @@ Dividimos o arquivo `modules/redtube/controllers.js` em 2:
 
 **modules/redtube/services.js**
 Aqui nós colocamos toda a camada de comunicação externa da aplicação, também encapsulada por uma IIFE, assim poderemos reaproveitar em outros controllers desse módulo futuramente.
-
+```javascript
     (function(){
       'use strict';
       angular.module('workshopBeMean.redtube')
@@ -113,10 +115,12 @@ Aqui nós colocamos toda a camada de comunicação externa da aplicação, tamb�
         }
       }
     }());
-
+```
 
 **modules/redtube/controllers.js**
 
+
+```javascript
     (function(){
     'use strict';
       angular.module('workshopBeMean.redtube')
@@ -157,5 +161,6 @@ Aqui nós colocamos toda a camada de comunicação externa da aplicação, tamb�
         };
       }
     }());
-    
+```
+
     [http://suissacorp.com.br/redtube/](http://suissacorp.com.br/redtube/)
