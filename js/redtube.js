@@ -2,7 +2,7 @@ angular.module('workshopBeMean', [])
   .controller('RedtubeController', ['$scope', '$http', '$sce',
     function($scope, $http, $sce) {
       $scope.query = 'Sasha Gray';
-     
+
       $scope.$watch('query', function(data) {
         console.log('watch', data);
         searchVideo(data);

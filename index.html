@@ -9,10 +9,12 @@
 <body>
     <div class="row">
         <div class="large-12 columns">
-            <input type="text" ng-model="query">
-
+            <input type="text" data-ng-model="query">
+            <label for="find">
+                <input type="text" id="find" data-ng-model="find" placeholder="Fitre por: " />
+            </label>
             <ul class="small-block-grid-1 large-block-grid-3">
-                <li ng-repeat="v in videos">
+                <li ng-repeat="v in videos | filter:find">
                     <h3 class="video-title"><a ng-href="{{v.video.url}}">{{v.video.title}}</a></h3>
                     <a class="video-thumb th" ng-click="videoModal(v.video.video_id)">
                         <img ng-src="{{v.video.default_thumb}}" alt="{{v.video.title}}" title="{{v.video.title}}">
